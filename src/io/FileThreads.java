@@ -3,11 +3,17 @@
  */
 package io;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilterReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.StringReader;
 
 /**
@@ -24,8 +30,46 @@ public class FileThreads {
 		File f1 = new File ("/home/user/workspace/workspace/src/io/file.txt");
 		File f2 = new File ("/home/user/workspace/workspace/src/io/output.txt");
 		
+		try {
+		    String fileName = "/home/user/workspace/workspace/src/io/file.txt";
+		    InputStream inStream = null;
+		    OutputStream outStream = null;
+
+		    //Записываем в файл некоторое количество байт
+		    long timeStart = System.currentTimeMillis();
+		    outStream = new FileOutputStream(fileName);
+		    outStream = new BufferedOutputStream(outStream);
+		    for(int i=1000000; --i>=0;) {
+		        outStream.write(i);
+		    }
+		    long time = System.currentTimeMillis() - timeStart;
+		    System.out.println("Время записи: " + time + " миллисекунд");
+		    outStream.close();
+
+		    //Определяем время считывания без буферизации
+		    timeStart = System.currentTimeMillis();
+		    inStream = new FileInputStream(fileName);
+		    while(inStream.read()!=-1){
+		    }
+		    time = System.currentTimeMillis() - timeStart;
+		    inStream.close();
+		    System.out.println("На чтение затрачено: " + (time) + " миллисекунд");
+
+		    //Определяем время считывания с буферизацией
+		    timeStart = System.currentTimeMillis();
+		    inStream = new FileInputStream(fileName);
+		    inStream = new BufferedInputStream(inStream);
+		    while(inStream.read()!=-1){
+		    }
+		    time = System.currentTimeMillis() - timeStart;
+		    inStream.close();
+		    System.out.println("На буферизированное чтение затрачено: " + (time) + " миллисекунд");
+		    } catch (IOException e) {
+		        System.out.println("IOException: " + e.toString());
+		        e.printStackTrace();
+		    }
 		
-	   try {
+	  /* try {
 		f2.createNewFile();
 	} catch (IOException e1) {
 		// TODO Auto-generated catch block
@@ -47,7 +91,7 @@ public class FileThreads {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	        System.out.println();
+	        System.out.println();*/
 	        
 		// TODO Auto-generated method stub
 		/*File f1 = new File ("/home/user/workspace/workspace/src/io/file.txt");
