@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import javafx.collections.SetChangeListener;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -32,6 +33,10 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
+import com.sun.prism.Image;
 
 /**
  * @author user
@@ -69,7 +74,34 @@ public class GuiMain extends JFrame{
 			comboRegion =new JComboBox(RegionRecord);
 		return comboRegion;
 	}
-
+	
+	public void setLookAndFeel(int type)
+	{
+	    String laf= "";
+	    switch(type){
+	        case 1: laf = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+	        break;
+	        case 2: laf = "javax.swing.plaf.metal.MetalLookAndFeel";
+	        break;
+	        case 3: laf = "com.sun.java.swing.plaf.motif.MotifLookAndFeel";
+	        break;
+	        case 4: laf = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
+	        break;
+	        case 5: laf = "com.sun.java.swing.plaf.mac.MacLookAndFeel";
+	        break;
+	        
+	        
+	    }
+	    try {
+	        //Изменяем менеджер
+	        UIManager.setLookAndFeel(laf);
+	        //Обновляем пользовательский интерфейс
+	        SwingUtilities.updateComponentTreeUI(this);
+	    }
+	    catch(Exception e){
+	        e.printStackTrace();
+	    }
+	}
 
 	/**
 	 * @return the adressField
@@ -116,6 +148,8 @@ public class GuiMain extends JFrame{
 	public JButton getButt() {
 		butt =new JButton();
 		butt.setText("зарегаться");
+		ImageIcon icon =new ImageIcon("/home/user/workspace/workspace/code.png");
+		butt.setIcon(icon);
 		butt.addActionListener(new ActionListener() {
 			
 			@SuppressWarnings("deprecation")
@@ -227,6 +261,7 @@ public class GuiMain extends JFrame{
 		content.setSize(new Dimension(200, 200));
 		content.setBackground(Color.PINK);
 		
+		
 		GridBagLayout thisLayout = new GridBagLayout();
 		thisLayout.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		thisLayout.rowHeights = new int[] {7, 20, 7, 20, 7, 20, 7, 20, 7, 20, 7 ,20,7 ,20};
@@ -256,8 +291,13 @@ public class GuiMain extends JFrame{
 	 */
 	public GuiMain() {
 		//this.setContentPane(getContent());
-		getContentPane().add(login);
-		
+		//getContentPane().add(login);
+		setLookAndFeel(5);
+		try {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 
